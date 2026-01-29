@@ -1,0 +1,20 @@
+.lesson-path {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 3rem;
+}
+
+.lesson-path-item {
+  position: relative;
+}
+
+.lesson-connector {
+  height: 30px;
+  width: 6px;
+  background: linear-gradient(180deg, #e5e5e5 0%, #d0d0d0 100%);
+  margin: 0 auto;
+  border-radius: 3px;
+}

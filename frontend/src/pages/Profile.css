@@ -1,0 +1,129 @@
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  min-height: calc(100vh - 80px);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.profile-header h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  color: #3c3c3c;
+}
+
+.user-email {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-big {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #58cc02;
+}
+
+.level-progress {
+  margin-top: 1.5rem;
+}
+
+.level-progress .progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #e5e5e5;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.level-progress .progress-fill {
+  height: 100%;
+  background-color: #58cc02;
+}
+
+.level-progress p {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.achievements-section {
+  margin-top: 4rem;
+}
+
+.achievements-section h2 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #3c3c3c;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.achievement-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.achievement-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.achievement-card.locked {
+  opacity: 0.5;
+}
+
+.achievement-card.earned {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+}
+
+.achievement-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.achievement-card h4 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+  color: #3c3c3c;
+}
+
+.achievement-card p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+}
