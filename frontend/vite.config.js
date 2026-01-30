@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/ASLDuolingo/',
   build: {
-    outDir: '../dist',
+    outDir: '../docs',
     emptyOutDir: true
   }
 })
