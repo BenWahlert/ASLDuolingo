@@ -1,20 +1,6 @@
-const LEVEL_THRESHOLDS = {
-  1: 0,
-  2: 100,
-  3: 250,
-  4: 500,
-  5: 1000,
-  6: 2000,
-  7: 3500,
-  8: 5500,
-  9: 8000,
-  10: 11000,
-  11: 14500,
-  12: 18500,
-  13: 23000,
-  14: 28000,
-  15: 33500
-};
+import constantsData from '../data/constants.json';
+
+const LEVEL_THRESHOLDS = constantsData.levelThresholds;
 
 export function getXpForNextLevel(currentXp, currentLevel) {
   const nextLevel = currentLevel + 1;

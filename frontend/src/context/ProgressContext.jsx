@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import api from '../services/api';
+import * as dataService from '../services/dataService';
 
 const ProgressContext = createContext(null);
 
@@ -7,70 +7,69 @@ export function ProgressProvider({ children }) {
   const [lessons, setLessons] = useState([]);
   const [currentLesson, setCurrentLesson] = useState(null);
   const [exercises, setExercises] = useState([]);
-  const [user, setUser] = useState({ total_xp: 0, current_level: 1, current_streak: 0 });
+  const [user, setUser] = useState(dataService.getUserData());
 
   const loadLessons = async () => {
-    const response = await api.get('/api/lessons');
-    setLessons(response.data);
-    return response.data;
+    return new Promise(resolve => {
+      const data = dataService.getAllLessons();
+      setLessons(data);
+      resolve(data);
+    });
   };
 
   const loadLesson = async (lessonId) => {
-    const response = await api.get(`/api/lessons/${lessonId}`);
-    setCurrentLesson(response.data);
-    return response.data;
+    return new Promise(resolve => {
+      const data = dataService.getLessonById(lessonId);
+      setCurrentLesson(data);
+      resolve(data);
+    });
   };
 
   const loadExercises = async (lessonId) => {
-    const response = await api.get(`/api/lessons/${lessonId}/exercises`);
-    setExercises(response.data);
-    return response.data;
+    return new Promise(resolve => {
+      const data = dataService.getLessonExercises(lessonId);
+      setExercises(data);
+      resolve(data);
+    });
   };
 
   const startLesson = async (lessonId) => {
-    const response = await api.post(`/api/progress/${lessonId}/start`);
-    return response.data;
+    return new Promise(resolve => {
+      const result = dataService.startLesson(lessonId);
+      setUser(dataService.getUserData());
+      resolve(result);
+    });
   };
 
   const submitExercise = async (exerciseId, answer, attemptCount) => {
-    const response = await api.post('/api/progress/exercise', {
-      exerciseId,
-      answer,
-      attemptCount
+    return new Promise(resolve => {
+      const result = dataService.submitExercise(exerciseId, answer, attemptCount);
+
+      if (result.newTotalXp !== undefined) {
+        setUser(dataService.getUserData());
+      }
+
+      resolve(result);
     });
-
-    if (response.data.newTotalXp !== undefined) {
-      setUser(prev => ({
-        ...prev,
-        total_xp: response.data.newTotalXp,
-        current_level: response.data.newLevel
-      }));
-    }
-
-    return response.data;
   };
 
   const completeLesson = async (lessonId) => {
-    const response = await api.put(`/api/progress/${lessonId}/complete`);
+    return new Promise(resolve => {
+      const result = dataService.completeLesson(lessonId);
 
-    if (response.data.newTotalXp !== undefined) {
-      setUser(prev => ({
-        ...prev,
-        total_xp: response.data.newTotalXp,
-        current_level: response.data.newLevel
-      }));
-    }
+      if (result.newTotalXp !== undefined) {
+        setUser(dataService.getUserData());
+      }
 
-    return response.data;
+      resolve(result);
+    });
   };
 
   const loadUserStats = async () => {
-    try {
-      const response = await api.get('/api/auth/me');
-      setUser(response.data);
-    } catch (error) {
-      console.error('Failed to load user stats:', error);
-    }
+    return new Promise(resolve => {
+      setUser(dataService.getUserData());
+      resolve();
+    });
   };
 
   return (

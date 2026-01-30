@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useProgress } from '../context/ProgressContext';
-import api from '../services/api';
+import * as dataService from '../services/dataService';
 import { getCurrentLevelProgress, getXpForNextLevel } from '../utils/xpCalculator';
 import './Profile.css';
 
@@ -16,15 +16,14 @@ function Profile() {
     const loadData = async () => {
       try {
         await loadUserStats();
-        const [userAchievementsRes, allAchievementsRes] = await Promise.all([
-          api.get('/api/achievements/user'),
-          api.get('/api/achievements')
-        ]);
+
+        const userAchievementsData = dataService.getUserAchievements();
+        const allAchievementsData = dataService.getAllAchievements();
 
         if (cancelled) return;
 
-        setAchievements(userAchievementsRes.data);
-        setAllAchievements(allAchievementsRes.data);
+        setAchievements(userAchievementsData);
+        setAllAchievements(allAchievementsData);
         setLoading(false);
       } catch (error) {
         console.error('Failed to load achievements:', error);
