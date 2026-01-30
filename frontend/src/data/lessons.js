@@ -1,4 +1,4 @@
-export default [
+const lessons = [
   {
     "id": "lesson-1",
     "title": "ASL Alphabet A-E",
@@ -90,3 +90,5 @@ export default [
     "xp_reward": 50
   }
 ];
+
+export default lessons;

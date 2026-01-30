@@ -1,4 +1,4 @@
-export default [
+const exercises = [
   {
     "id": "exercise-1",
     "lesson_id": "lesson-1",
@@ -857,3 +857,5 @@ export default [
     "order_index": 5
   }
 ];
+
+export default exercises;

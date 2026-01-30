@@ -1,4 +1,4 @@
-export default [
+const achievements = [
   {
     "id": "achievement-1",
     "name": "First Steps",
@@ -56,3 +56,5 @@ export default [
     "requirement_value": 1000
   }
 ];
+
+export default achievements;
