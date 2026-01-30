@@ -8,12 +8,12 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/ASLDuolingo">
       <ProgressProvider>
         <div className="app-container">
           <Navbar />
           <Routes>
-            <Route path="/" element={<Navigate to="/learn" />} />
+            <Route path="/" element={<Navigate to="/learn" replace />} />
             <Route path="/learn" element={<Learn />} />
             <Route path="/lesson/:id" element={<Lesson />} />
             <Route path="/profile" element={<Profile />} />
