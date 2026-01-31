@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useProgress } from '../../context/ProgressContext';
 import MultipleChoice from './MultipleChoice';
@@ -55,7 +56,7 @@ function ExerciseContainer({ lesson, exercises }) {
 
   if (completed) {
     return (
-      <div className="lesson-complete">
+      <section className="lesson-complete" role="status" aria-live="polite">
         <h1>Lesson Complete!</h1>
         <div className="completion-stats">
           <div className="stat-item">
@@ -63,10 +64,10 @@ function ExerciseContainer({ lesson, exercises }) {
             <span className="stat-value">{totalXp}</span>
           </div>
         </div>
-        <button onClick={() => navigate('/learn')} className="btn-primary">
+        <button onClick={() => navigate('/learn')} className="btn-primary" aria-label="Continue to learning path">
           Continue Learning
         </button>
-      </div>
+      </section>
     );
   }
 
@@ -84,23 +85,34 @@ function ExerciseContainer({ lesson, exercises }) {
   };
 
   return (
-    <div className="exercise-container">
-      <div className="exercise-header">
-        <div className="progress-bar">
+    <main className="exercise-container">
+      <header className="exercise-header">
+        <div
+          className="progress-bar"
+          role="progressbar"
+          aria-valuenow={currentIndex + 1}
+          aria-valuemin={1}
+          aria-valuemax={exercises.length}
+          aria-label={`Exercise progress: ${currentIndex + 1} of ${exercises.length}`}
+        >
           <div
             className="progress-fill"
             style={{ width: `${((currentIndex + 1) / exercises.length) * 100}%` }}
           />
         </div>
-        <span className="exercise-counter">
+        <span className="exercise-counter" aria-hidden="true">
           {currentIndex + 1} / {exercises.length}
         </span>
-      </div>
+      </header>
 
       {renderExercise()}
 
       {feedback && (
-        <div className={`feedback feedback-${feedback.type}`}>
+        <div
+          className={`feedback feedback-${feedback.type}`}
+          role="alert"
+          aria-live="assertive"
+        >
           {feedback.type === 'correct' ? (
             <div>
               <p>Correct! +{feedback.xp} XP</p>
@@ -117,8 +129,16 @@ function ExerciseContainer({ lesson, exercises }) {
           )}
         </div>
       )}
-    </div>
+    </main>
   );
 }
+
+ExerciseContainer.propTypes = {
+  lesson: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
+  }).isRequired,
+  exercises: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default ExerciseContainer;

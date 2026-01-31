@@ -3,6 +3,12 @@ import { addXp } from './xpService';
 
 const { xpValues } = constantsData;
 
+/**
+ * Updates user's daily practice streak based on last practice date
+ * Awards 20 XP bonus for consecutive days, resets streak if gap > 1 day
+ * @param {Object} userData - User data object (modified in place)
+ * @returns {Object} Result with streakIncreased, currentStreak, xpEarned, streakReset (optional)
+ */
 export function updateStreak(userData) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);

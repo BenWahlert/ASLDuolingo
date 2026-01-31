@@ -1,5 +1,14 @@
 import lessonsData from '../data/lessons.js';
 
+/**
+ * Checks all achievements and returns newly earned ones
+ * Supports 4 requirement types: total_xp, streak_days, lessons_completed, category_complete
+ * @param {Object} userData - User statistics (total_xp, current_streak, etc.)
+ * @param {Object} progressData - Lesson progress keyed by lesson ID
+ * @param {Object} earnedAchievements - Already earned achievements keyed by achievement ID
+ * @param {Array} allAchievements - All achievement definitions
+ * @returns {Array} Array of newly earned achievement objects
+ */
 export function checkAndAwardAchievements(userData, progressData, earnedAchievements, allAchievements) {
   const earnedIds = Object.keys(earnedAchievements);
   const newlyEarned = [];

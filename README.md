@@ -1,2 +1,1 @@
-# ASLDuolingo
 duolingo for asl

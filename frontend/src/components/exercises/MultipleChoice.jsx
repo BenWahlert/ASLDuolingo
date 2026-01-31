@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import './Exercise.css';
 import { getAssetPath } from '../../utils/assetPath';
 
@@ -19,6 +20,23 @@ function MultipleChoice({ exercise, onSubmit, attempts }) {
     setSelected('');
   }, [exercise.id]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const key = e.key;
+      if (key >= '1' && key <= '4') {
+        const index = parseInt(key) - 1;
+        if (shuffledOptions[index]) {
+          setSelected(shuffledOptions[index]);
+        }
+      } else if (key === 'Enter' && selected) {
+        handleSubmit();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [shuffledOptions, selected]);
+
   const handleSubmit = () => {
     if (selected) {
       onSubmit(selected);
@@ -26,21 +44,26 @@ function MultipleChoice({ exercise, onSubmit, attempts }) {
   };
 
   return (
-    <div className="exercise multiple-choice">
-      <h2>{exercise.question_text}</h2>
+    <section className="exercise multiple-choice" role="region" aria-label="Multiple choice exercise">
+      <h2 id="question-text">{exercise.question_text}</h2>
 
       {exercise.image_url && (
         <div className="exercise-image">
-          <img src={getAssetPath(exercise.image_url)} alt="ASL sign" />
+          <img
+            src={getAssetPath(exercise.image_url)}
+            alt={`ASL sign for ${exercise.correct_answer || 'the answer'}`}
+          />
         </div>
       )}
 
-      <div className="options">
+      <div className="options" role="group" aria-labelledby="question-text">
         {shuffledOptions.map((option, index) => (
           <button
             key={index}
             className={`option ${selected === option ? 'selected' : ''}`}
             onClick={() => setSelected(option)}
+            aria-label={`Select answer: ${option}`}
+            aria-pressed={selected === option}
           >
             {option}
           </button>
@@ -51,11 +74,24 @@ function MultipleChoice({ exercise, onSubmit, attempts }) {
         className="btn-primary btn-submit"
         onClick={handleSubmit}
         disabled={!selected}
+        aria-label="Check your answer"
       >
         Check Answer
       </button>
-    </div>
+    </section>
   );
 }
+
+MultipleChoice.propTypes = {
+  exercise: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    question_text: PropTypes.string.isRequired,
+    image_url: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
+    correct_answer: PropTypes.string.isRequired
+  }).isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  attempts: PropTypes.number.isRequired
+};
 
 export default MultipleChoice;

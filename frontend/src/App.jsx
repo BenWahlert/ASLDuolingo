@@ -14,12 +14,14 @@ function App() {
         <ProgressProvider>
           <div className="app-container">
             <Navbar />
-            <Routes>
-              <Route path="/" element={<Navigate to="/learn" replace />} />
-              <Route path="/learn" element={<Learn />} />
-              <Route path="/lesson/:id" element={<Lesson />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
+            <main id="main-content" tabIndex="-1">
+              <Routes>
+                <Route path="/" element={<Navigate to="/learn" replace />} />
+                <Route path="/learn" element={<Learn />} />
+                <Route path="/lesson/:id" element={<Lesson />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </main>
           </div>
         </ProgressProvider>
       </BrowserRouter>

@@ -24,30 +24,34 @@ function Learn() {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading lessons...</div>;
+    return <div className="loading" role="status" aria-live="polite">Loading lessons...</div>;
   }
 
   return (
     <div className="learn-page">
-      <div className="learn-header">
+      <header className="learn-header">
         <h1>Your Learning Path</h1>
-        <div className="user-stats">
+        <div className="user-stats" role="region" aria-label="User statistics">
           <div className="stat">
-            <span className="stat-label">Level</span>
-            <span className="stat-value">{user?.current_level}</span>
+            <span className="stat-label" id="level-label">Level</span>
+            <span className="stat-value" aria-labelledby="level-label">{user?.current_level}</span>
           </div>
           <div className="stat">
-            <span className="stat-label">XP</span>
-            <span className="stat-value">{user?.total_xp}</span>
+            <span className="stat-label" id="xp-label">XP</span>
+            <span className="stat-value" aria-labelledby="xp-label">{user?.total_xp}</span>
           </div>
           <div className="stat">
-            <span className="stat-label">Streak</span>
-            <span className="stat-value">{user?.current_streak}🔥</span>
+            <span className="stat-label" id="streak-label">Streak</span>
+            <span className="stat-value" aria-labelledby="streak-label">
+              {user?.current_streak}<span aria-label="day streak">🔥</span>
+            </span>
           </div>
         </div>
-      </div>
+      </header>
 
-      <LessonPath lessons={lessons} />
+      <section aria-label="Available lessons">
+        <LessonPath lessons={lessons} />
+      </section>
     </div>
   );
 }

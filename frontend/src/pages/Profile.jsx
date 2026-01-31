@@ -41,7 +41,7 @@ function Profile() {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading profile...</div>;
+    return <div className="loading" role="status" aria-live="polite">Loading profile...</div>;
   }
 
   const earnedAchievementIds = achievements.map(a => a.achievement_id);
@@ -50,17 +50,24 @@ function Profile() {
 
   return (
     <div className="profile-page">
-      <div className="profile-header">
+      <header className="profile-header">
         <h1>My Progress</h1>
-      </div>
+      </header>
 
-      <div className="stats-grid">
-        <div className="stat-card">
+      <section className="stats-grid" aria-label="User statistics">
+        <article className="stat-card">
           <h3>Level</h3>
-          <div className="stat-big">{user.current_level}</div>
+          <div className="stat-big" aria-label={`Level ${user.current_level}`}>{user.current_level}</div>
           {xpToNextLevel && (
             <div className="level-progress">
-              <div className="progress-bar">
+              <div
+                className="progress-bar"
+                role="progressbar"
+                aria-valuenow={levelProgress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Progress to next level: ${levelProgress}%`}
+              >
                 <div
                   className="progress-fill"
                   style={{ width: `${levelProgress}%` }}
@@ -69,45 +76,50 @@ function Profile() {
               <p>{xpToNextLevel} XP to Level {user.current_level + 1}</p>
             </div>
           )}
-        </div>
+        </article>
 
-        <div className="stat-card">
+        <article className="stat-card">
           <h3>Total XP</h3>
-          <div className="stat-big">{user.total_xp}</div>
-        </div>
+          <div className="stat-big" aria-label={`Total experience points: ${user.total_xp}`}>{user.total_xp}</div>
+        </article>
 
-        <div className="stat-card">
+        <article className="stat-card">
           <h3>Current Streak</h3>
-          <div className="stat-big">{user.current_streak} 🔥</div>
-        </div>
+          <div className="stat-big" aria-label={`Current streak: ${user.current_streak} days`}>
+            {user.current_streak} <span aria-hidden="true">🔥</span>
+          </div>
+        </article>
 
-        <div className="stat-card">
+        <article className="stat-card">
           <h3>Longest Streak</h3>
-          <div className="stat-big">{user.longest_streak} 🔥</div>
-        </div>
-      </div>
+          <div className="stat-big" aria-label={`Longest streak: ${user.longest_streak} days`}>
+            {user.longest_streak} <span aria-hidden="true">🔥</span>
+          </div>
+        </article>
+      </section>
 
-      <div className="achievements-section">
+      <section className="achievements-section" aria-label="Achievements">
         <h2>Achievements ({achievements.length} / {allAchievements.length})</h2>
 
         <div className="achievements-grid">
           {allAchievements.map(achievement => {
             const earned = earnedAchievementIds.includes(achievement.id);
             return (
-              <div
+              <article
                 key={achievement.id}
                 className={`achievement-card ${earned ? 'earned' : 'locked'}`}
+                aria-label={`${achievement.name}: ${earned ? 'Earned' : 'Locked'}`}
               >
-                <div className="achievement-icon">
+                <div className="achievement-icon" aria-hidden="true">
                   {earned ? '🏆' : '🔒'}
                 </div>
                 <h4>{achievement.name}</h4>
                 <p>{achievement.description}</p>
-              </div>
+              </article>
             );
           })}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
